@@ -1,0 +1,27 @@
+﻿using Microsoft.EntityFrameworkCore;
+using NetPcContactApi.Models.Categories;
+using NetPcContactApi.Models.User;
+
+namespace NetPcContactApi.Database
+{
+    public class DataContext : DbContext
+    {
+        public DataContext(DbContextOptions<DataContext> options): base(options) {
+        
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+             .HasIndex(u => u.Email)
+             .IsUnique();
+            modelBuilder.Entity<ContactCategory>().HasData(
+                new ContactCategory { ContactCategoryId = 1, Name = "Prywatny" },
+                new ContactCategory { ContactCategoryId = 2, Name = "Służbowy" },
+                new ContactCategory { ContactCategoryId = 3, Name = "Inny" }
+            );
+        }
+        public DbSet<User> Users => Set<User>();
+        public DbSet<ContactCategory> ContactCategories => Set<ContactCategory>();
+        public DbSet<SubContactCategory> SubContactCategories => Set<SubContactCategory>();
+    }
+}
