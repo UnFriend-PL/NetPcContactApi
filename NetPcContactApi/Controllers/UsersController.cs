@@ -22,6 +22,21 @@ namespace NetPcContactApi.Controllers
 
 
         /// <summary>
+        /// Get users collection
+        /// </summary>
+        /// <returns>Colletion of users data without password and empty tokens</returns>
+        [HttpGet("Users")]
+        public async Task<ActionResult<ServiceResponse<User>>> Users()
+        {
+            var response = await _userService.GetUsers();
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Register a new user
         /// </summary>
         /// <param name="userDto">Data of the user to be registered</param>

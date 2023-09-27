@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using NetPcContactApi.Models.Categories;
+using Newtonsoft.Json;
 
 namespace NetPcContactApi.Models.User
 {
@@ -6,15 +7,20 @@ namespace NetPcContactApi.Models.User
     {
         [JsonProperty("userId")]
         public int UserId { get; set; }
-        [JsonProperty("name")]
-        public string Name { get; set; } = string.Empty;
-        [JsonProperty("surname")]
-        public string Surname { get; set; } = string.Empty;
+        [JsonProperty("fistName")]
+        public string FirstName { get; set; } = string.Empty;
+        [JsonProperty("lastName")]
+        public string LastName { get; set; } = string.Empty;
         [JsonProperty("email")]
         public string Email { get; set; } = string.Empty;
         [JsonProperty("phone")]
         public string Phone { get; set; } = string.Empty;
+        [JsonProperty("token")]
         public string Token { get; set; } = string.Empty;
+        [JsonProperty("contactCategory")]
+        public int ContactCategory { get; set; }
+        [JsonProperty("subContactCategory")]
+        public int SubContactCategoryId { get; set; }
         public UserResponse()
         {
 
@@ -22,11 +28,13 @@ namespace NetPcContactApi.Models.User
         public UserResponse(User user, string token)
         {
             UserId = user.UserId; 
-            Name = user.FirstName; 
-            Surname = user.LastName; 
+            FirstName = user.FirstName; 
+            LastName = user.LastName; 
             Email = user.Email; 
             Phone = user.Phone;
             Token = token;
+            ContactCategory = user.ContactCategoryId;
+            SubContactCategoryId = user.SubContactCategoryId;
         }
     }
 

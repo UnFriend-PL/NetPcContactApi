@@ -6,8 +6,9 @@ namespace NetPcContactApi.Database
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options): base(options) {
-        
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,9 +20,11 @@ namespace NetPcContactApi.Database
                 new ContactCategory { ContactCategoryId = 2, Name = "Służbowy" },
                 new ContactCategory { ContactCategoryId = 3, Name = "Inny" }
             );
+            modelBuilder.Entity<ContactSubCategory>().HasKey(c => c.ContactSubCategoryId);
+            modelBuilder.Entity<ContactSubCategory>().HasIndex(c => c.ContactSubCategoryId).IsUnique();
         }
         public DbSet<User> Users => Set<User>();
         public DbSet<ContactCategory> ContactCategories => Set<ContactCategory>();
-        public DbSet<SubContactCategory> SubContactCategories => Set<SubContactCategory>();
+        public DbSet<ContactSubCategory> SubContactCategories => Set<ContactSubCategory>();
     }
 }

@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using NetPcContactApi;
+using NuGet.Common;
 
 namespace NetPcContactApi.Services
 {
@@ -103,12 +104,12 @@ namespace NetPcContactApi.Services
                     user.Email = userDto.Email;
                     user.Phone = userDto.Phone;
 
-                    if (!string.IsNullOrEmpty(userDto.Password))
-                    {
-                        CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
-                        user.PasswordHash = passwordHash;
-                        user.PasswordSalt = passwordSalt;
-                    }
+                    //if (!string.IsNullOrEmpty(userDto.Password))
+                    //{
+                    //    CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                    //    user.PasswordHash = passwordHash;
+                    //    user.PasswordSalt = passwordSalt;
+                    //}
 
 
                     _context.Users.Update(user);
@@ -252,5 +253,35 @@ namespace NetPcContactApi.Services
             return tokenHandler.WriteToken(token);
         }
 
+        public async Task<ServiceResponse<List<UserResponse>>> GetUsers()
+        {
+            var serviceResponse = new ServiceResponse<List<UserResponse>>();
+
+            try
+            {
+                var users = await _context.Users
+                    .Select(u => new UserResponse
+                    {
+                        UserId = u.UserId,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        ContactCategory = u.ContactCategoryId,
+                        SubContactCategoryId = u.SubContactCategoryId,
+                        Phone = u.Phone,
+                    })
+                    .ToListAsync();
+
+                serviceResponse.Data = users;
+            }
+            catch (Exception ex)
+            {
+                // Obsługa błędów w przypadku wyjątku.
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Wystąpił błąd podczas pobierania użytkowników.";
+            }
+
+            return serviceResponse;
+        }
     }
 }

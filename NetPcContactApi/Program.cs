@@ -34,6 +34,7 @@ namespace NetPcContactApi
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IContactCategoriesService, ContactCategoriesService>();
 
             builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(options =>

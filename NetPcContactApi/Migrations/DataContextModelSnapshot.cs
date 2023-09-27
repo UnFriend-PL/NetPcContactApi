@@ -114,7 +114,7 @@ namespace NetPcContactApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubContactCategory")
+                    b.Property<int>("SubContactCategoryId")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");

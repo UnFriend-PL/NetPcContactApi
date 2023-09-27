@@ -12,8 +12,8 @@ using NetPcContactApi.Database;
 namespace NetPcContactApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230925171330_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230927141458_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,7 +117,7 @@ namespace NetPcContactApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubContactCategory")
+                    b.Property<int>("SubContactCategoryId")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");

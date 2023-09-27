@@ -5,9 +5,9 @@
         public int ContactCategoryId { get; set; }
         public string Name { get; set; }
     }
-    public class SubContactCategory
+    public class ContactSubCategory
     {
-        public int SubContactCategoryId { get; set; }
+        public int ContactSubCategoryId { get; set; }
         public int ContactCategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
     }
