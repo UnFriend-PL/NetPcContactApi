@@ -16,6 +16,8 @@ namespace NetPcContactApi.Models.User
         public string Phone { get; set; } = string.Empty;
         [JsonProperty("token")]
         public string Token { get; set; } = string.Empty;
+        [JsonProperty("birthday")]
+        public DateTime Birthday { get; set; } = new DateTime();
         //[JsonProperty("password")]
         //public string Password { get; set; } = string.Empty;
 

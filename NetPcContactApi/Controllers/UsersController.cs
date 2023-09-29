@@ -22,11 +22,26 @@ namespace NetPcContactApi.Controllers
 
 
         /// <summary>
+        /// Delete selcted user
+        /// </summary>
+        [HttpDelete("DeleteUser")]
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult<ServiceResponse<string>>> Users(DeleteUserDto deleteUserDto)
+        {
+            var response = await _userService.DeleteUser(deleteUserDto);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Get users collection
         /// </summary>
         /// <returns>Colletion of users data without password and empty tokens</returns>
         [HttpGet("Users")]
-        public async Task<ActionResult<ServiceResponse<User>>> Users()
+        public async Task<ActionResult<ServiceResponse<UserDto>>> Users()
         {
             var response = await _userService.GetUsers();
             if (!response.Success)
@@ -42,7 +57,7 @@ namespace NetPcContactApi.Controllers
         /// <param name="userDto">Data of the user to be registered</param>
         /// <returns>User data if registration was successful</returns>
         [HttpPost("Register")]
-        public async Task<ActionResult<ServiceResponse<User>>> Register(UserDto userDto)
+        public async Task<ActionResult<ServiceResponse<UserResponse>>> Register(UserDto userDto)
         {
             var response = await _userService.Register(userDto);
             if (!response.Success)

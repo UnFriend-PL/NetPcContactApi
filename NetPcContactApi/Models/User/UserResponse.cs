@@ -21,6 +21,9 @@ namespace NetPcContactApi.Models.User
         public int ContactCategory { get; set; }
         [JsonProperty("subContactCategory")]
         public int SubContactCategoryId { get; set; }
+
+        [JsonProperty("birthday")]
+        public DateTime Birthday { get; set; }
         public UserResponse()
         {
 
@@ -33,6 +36,7 @@ namespace NetPcContactApi.Models.User
             Email = user.Email; 
             Phone = user.Phone;
             Token = token;
+            Birthday = user.Birthday;
             ContactCategory = user.ContactCategoryId;
             SubContactCategoryId = user.SubContactCategoryId;
         }

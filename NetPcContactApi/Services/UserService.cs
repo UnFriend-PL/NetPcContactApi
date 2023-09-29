@@ -31,13 +31,13 @@ namespace NetPcContactApi.Services
         /// </summary>
         /// <param name="userDto">The user information to register.</param>
         /// <returns>ServiceResponse containing the new User object if successful.</returns>
-        public async Task<ServiceResponse<User>> Register(UserDto userDto)
+        public async Task<ServiceResponse<UserResponse>> Register(UserDto userDto)
         {
             User user = await _context.Users.FirstOrDefaultAsync(x => x.Email == userDto.Email);
 
             if (user != null)
             {
-                return CreateResponse<User>(false, "User already exists.");
+                return CreateResponse<UserResponse>(false, "User already exists.");
             }
 
             CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -45,8 +45,8 @@ namespace NetPcContactApi.Services
 
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-
-            return CreateResponse(true, "User registered successfully.", newUser);
+            var userResponse = new UserResponse(newUser, "");
+            return CreateResponse(true, "User registered successfully.", userResponse);
         }
 
         /// <summary>
@@ -99,24 +99,34 @@ namespace NetPcContactApi.Services
                 }
                 else
                 {
-                    user.FirstName = userDto.FirstName;
-                    user.LastName = userDto.LastName;
-                    user.Email = userDto.Email;
-                    user.Phone = userDto.Phone;
+                    User userToEdit = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userDto.UserId);
+                    if (userToEdit == null)
+                    {
+                        response.Success = false;
+                        response.Message = "User to edit not found.";
+                    }
+                    else
+                    {
+                        userToEdit.FirstName = userDto.FirstName;
+                        userToEdit.LastName = userDto.LastName;
+                        userToEdit.Email = userDto.Email;
+                        userToEdit.Phone = userDto.Phone;
 
-                    //if (!string.IsNullOrEmpty(userDto.Password))
-                    //{
-                    //    CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
-                    //    user.PasswordHash = passwordHash;
-                    //    user.PasswordSalt = passwordSalt;
-                    //}
+                        //if (!string.IsNullOrEmpty(userDto.Password))
+                        //{
+                        //    CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                        //    user.PasswordHash = passwordHash;
+                        //    user.PasswordSalt = passwordSalt;
+                        //}
 
 
-                    _context.Users.Update(user);
-                    await _context.SaveChangesAsync();
+                        _context.Users.Update(userToEdit);
+                        await _context.SaveChangesAsync();
 
-                    UserResponse userResponse = new UserResponse(user, token);
-                    response.Data = userResponse;
+                        UserResponse userResponse = new UserResponse(user, token);
+                        response.Data = userResponse;
+
+                    }
                 }
             }
             catch (Exception ex)
@@ -164,6 +174,7 @@ namespace NetPcContactApi.Services
                 Phone = userDto.Phone,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                Birthday = userDto.Birthday,
             };
         }
 
@@ -269,6 +280,7 @@ namespace NetPcContactApi.Services
                         ContactCategory = u.ContactCategoryId,
                         SubContactCategoryId = u.SubContactCategoryId,
                         Phone = u.Phone,
+                        Birthday = u.Birthday,
                     })
                     .ToListAsync();
 
@@ -277,6 +289,34 @@ namespace NetPcContactApi.Services
             catch (Exception ex)
             {
                 // Obsługa błędów w przypadku wyjątku.
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Wystąpił błąd podczas pobierania użytkowników.";
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<string>> DeleteUser(DeleteUserDto deleteUserDto)
+        {
+            var serviceResponse = new ServiceResponse<string>();
+            try
+            {
+                User user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == deleteUserDto.UserId);
+                if (user == null)
+                {
+                    serviceResponse.Data = "user can't be deleted.";
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Wystąpił błąd podczas usuwania użytkownika.";
+                }
+                else
+                {
+                    _context.Users.Remove(user);
+                    await _context.SaveChangesAsync();
+                    serviceResponse.Data = "user deleted successful.";
+                }
+            }
+            catch (Exception ex)
+            {
                 serviceResponse.Success = false;
                 serviceResponse.Message = "Wystąpił błąd podczas pobierania użytkowników.";
             }

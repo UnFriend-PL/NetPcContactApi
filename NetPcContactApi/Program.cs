@@ -20,9 +20,17 @@ namespace NetPcContactApi
                 options.AddPolicy(name: "MyPolicy",
                                   builder =>
                                   {
+                                      //builder.WithOrigins("http://localhost:3000")
+                                      //       .AllowAnyHeader()
+                                      //       .AllowAnyMethod();
+
                                       builder.WithOrigins("http://localhost:8080")
                                              .AllowAnyHeader()
-                                             .AllowAnyMethod();
+                                             .AllowAnyMethod().AllowAnyOrigin();
+
+                                      builder.WithOrigins("http://localhost:3000")
+                                             .AllowAnyHeader()
+                                             .AllowAnyMethod().AllowAnyOrigin();
                                   });
             });
             builder.Services.AddHttpContextAccessor();
@@ -57,6 +65,7 @@ namespace NetPcContactApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!))
                 };
             });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
