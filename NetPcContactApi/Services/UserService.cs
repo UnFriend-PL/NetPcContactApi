@@ -111,7 +111,9 @@ namespace NetPcContactApi.Services
                         userToEdit.LastName = userDto.LastName;
                         userToEdit.Email = userDto.Email;
                         userToEdit.Phone = userDto.Phone;
-
+                        userToEdit.Birthday = userDto.Birthday;
+                        userToEdit.ContactCategoryId = userDto.ContactCategoryId;
+                        userToEdit.SubContactCategoryId = userDto.SubContactCategoryId;
                         //if (!string.IsNullOrEmpty(userDto.Password))
                         //{
                         //    CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);

@@ -18,6 +18,10 @@ namespace NetPcContactApi.Models.User
         public string Token { get; set; } = string.Empty;
         [JsonProperty("birthday")]
         public DateTime Birthday { get; set; } = new DateTime();
+        [JsonProperty("contactCategoryId")]
+        public int ContactCategoryId { get; set; } = 1;
+        [JsonProperty("subContactCategoryId")]
+        public int SubContactCategoryId { get; set; } = 1;
         //[JsonProperty("password")]
         //public string Password { get; set; } = string.Empty;
 
