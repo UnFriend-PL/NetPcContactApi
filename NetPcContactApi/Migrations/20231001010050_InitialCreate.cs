@@ -30,14 +30,14 @@ namespace NetPcContactApi.Migrations
                 name: "SubContactCategories",
                 columns: table => new
                 {
-                    SubContactCategoryId = table.Column<int>(type: "int", nullable: false)
+                    ContactSubCategoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ContactCategoryId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubContactCategories", x => x.SubContactCategoryId);
+                    table.PrimaryKey("PK_SubContactCategories", x => x.ContactSubCategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,7 +53,7 @@ namespace NetPcContactApi.Migrations
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactCategoryId = table.Column<int>(type: "int", nullable: false),
-                    SubContactCategoryId = table.Column<int>(type: "int", nullable: false),
+                    ContactSubCategoryId = table.Column<int>(type: "int", nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -70,6 +70,22 @@ namespace NetPcContactApi.Migrations
                     { 2, "Służbowy" },
                     { 3, "Inny" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "SubContactCategories",
+                columns: new[] { "ContactSubCategoryId", "ContactCategoryId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 2, "Szef" },
+                    { 2, 2, "Księgowa" },
+                    { 3, 3, "Nauczyciel" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubContactCategories_ContactSubCategoryId",
+                table: "SubContactCategories",
+                column: "ContactSubCategoryId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",

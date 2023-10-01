@@ -35,13 +35,13 @@ namespace NetPcContactApi.Controllers
         }
 
         /// <summary>
-        /// Get users collection
+        /// Get contact subcategories collection
         /// </summary>
         /// <returns>Colletion of contact subcategories</returns>
         [HttpGet("ContactSubCategories")]
-        public async Task<ActionResult<ServiceResponse<ContactSubCategory>>> GetContactSubCategories(int contactCategoryId)
+        public async Task<ActionResult<ServiceResponse<ContactSubCategory>>> GetContactSubCategories()
         {
-            var response = await _contactCategories.GetContactSubCategories(contactCategoryId);
+            var response = await _contactCategories.GetContactSubCategories();
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -49,5 +49,18 @@ namespace NetPcContactApi.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create a new subcategory
+        /// </summary>
+        [HttpPost("CreateContactSubCategory")]
+        public async Task<ActionResult<ServiceResponse<ContactSubCategory>>> CreateContactSubCategory(ContactSubCategoryDto contactSubCategoryDto)
+        {
+            var response = await _contactCategories.CreateContactSubCategory(contactSubCategoryDto);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
     }
 }

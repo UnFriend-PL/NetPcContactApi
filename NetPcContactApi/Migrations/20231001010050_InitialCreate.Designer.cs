@@ -12,7 +12,7 @@ using NetPcContactApi.Database;
 namespace NetPcContactApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230927141458_InitialCreate")]
+    [Migration("20231001010050_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -59,13 +59,13 @@ namespace NetPcContactApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("NetPcContactApi.Models.Categories.SubContactCategory", b =>
+            modelBuilder.Entity("NetPcContactApi.Models.Categories.ContactSubCategory", b =>
                 {
-                    b.Property<int>("SubContactCategoryId")
+                    b.Property<int>("ContactSubCategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubContactCategoryId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactSubCategoryId"));
 
                     b.Property<int>("ContactCategoryId")
                         .HasColumnType("int");
@@ -74,9 +74,32 @@ namespace NetPcContactApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SubContactCategoryId");
+                    b.HasKey("ContactSubCategoryId");
+
+                    b.HasIndex("ContactSubCategoryId")
+                        .IsUnique();
 
                     b.ToTable("SubContactCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            ContactSubCategoryId = 1,
+                            ContactCategoryId = 2,
+                            Name = "Szef"
+                        },
+                        new
+                        {
+                            ContactSubCategoryId = 2,
+                            ContactCategoryId = 2,
+                            Name = "Księgowa"
+                        },
+                        new
+                        {
+                            ContactSubCategoryId = 3,
+                            ContactCategoryId = 3,
+                            Name = "Nauczyciel"
+                        });
                 });
 
             modelBuilder.Entity("NetPcContactApi.Models.User.User", b =>
@@ -91,6 +114,9 @@ namespace NetPcContactApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ContactCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContactSubCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -116,9 +142,6 @@ namespace NetPcContactApi.Migrations
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SubContactCategoryId")
-                        .HasColumnType("int");
 
                     b.HasKey("UserId");
 

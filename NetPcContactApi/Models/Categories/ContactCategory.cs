@@ -11,4 +11,10 @@
         public int ContactCategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
     }
+
+    public class ContactSubCategoryDto
+    {
+        public int ContactCategoryId { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
 }

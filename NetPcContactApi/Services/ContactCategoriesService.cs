@@ -44,17 +44,17 @@ namespace NetPcContactApi.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<ContactSubCategory>>> GetContactSubCategories(int categoryId)
+        public async Task<ServiceResponse<List<ContactSubCategory>>> GetContactSubCategories()
         {
 
             var serviceResponse = new ServiceResponse<List<ContactSubCategory>>();
 
             try
             {
-                var categories = await _context.SubContactCategories.Where(c=> c.ContactCategoryId == categoryId)
+                var categories = await _context.SubContactCategories
                     .Select(c => new ContactSubCategory
                     {
-                        ContactSubCategoryId = c.ContactCategoryId,
+                        ContactSubCategoryId = c.ContactSubCategoryId,
                         Name = c.Name,
                         ContactCategoryId = c.ContactCategoryId
                     })
@@ -72,10 +72,43 @@ namespace NetPcContactApi.Services
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<ContactSubCategory>> CreateContactSubCategory(ContactSubCategoryDto contactSubCategoryDto)
+        {
+            var serviceResponse = new ServiceResponse<ContactSubCategory>();
 
-        //public Task<ServiceResponse<User>> GetSubContactCategoryId(int subCategoryId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            try
+            {
+                var category = await _context.SubContactCategories.Where(sb => sb.Name.ToLower() == contactSubCategoryDto.Name.ToLower())
+                    .Select(c => new ContactSubCategory
+                    {
+                        ContactSubCategoryId = c.ContactSubCategoryId,
+                        Name = c.Name,
+                        ContactCategoryId = c.ContactCategoryId
+                    })
+                    .FirstOrDefaultAsync();
+                if (category != null)
+                {
+                    serviceResponse.Data = category;
+                    return serviceResponse;
+                }
+                if(category == null)
+                {
+                    category = new ContactSubCategory { ContactCategoryId = contactSubCategoryDto.ContactCategoryId, Name = contactSubCategoryDto.Name };
+                    serviceResponse.Data = category;
+                    await _context.SubContactCategories.AddAsync(category);
+                    await _context.SaveChangesAsync();
+                    return serviceResponse;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                //serviceResponse.Message = "Wystąpił błąd podczas pobierania listy subkategorii.";
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }

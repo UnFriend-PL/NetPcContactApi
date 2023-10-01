@@ -10,7 +10,7 @@
         public string Email { get; set; }
         public string Phone { get; set; } = string.Empty;
         public int ContactCategoryId { get; set; } = 1;
-        public int SubContactCategoryId { get; set; } = 1;
+        public int ContactSubCategoryId { get; set; } = 1;
         public DateTime Birthday { get; set; } = new DateTime();
     }
 

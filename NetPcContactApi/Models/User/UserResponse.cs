@@ -17,10 +17,10 @@ namespace NetPcContactApi.Models.User
         public string Phone { get; set; } = string.Empty;
         [JsonProperty("token")]
         public string Token { get; set; } = string.Empty;
-        [JsonProperty("contactCategory")]
-        public int ContactCategory { get; set; }
-        [JsonProperty("subContactCategory")]
-        public int SubContactCategoryId { get; set; }
+        [JsonProperty("contactCategoryId")]
+        public int ContactCategoryId { get; set; }
+        [JsonProperty("contactSubCategoryId")]
+        public int ContactSubCategoryId { get; set; }
 
         [JsonProperty("birthday")]
         public DateTime Birthday { get; set; }
@@ -37,8 +37,8 @@ namespace NetPcContactApi.Models.User
             Phone = user.Phone;
             Token = token;
             Birthday = user.Birthday;
-            ContactCategory = user.ContactCategoryId;
-            SubContactCategoryId = user.SubContactCategoryId;
+            ContactCategoryId = user.ContactCategoryId;
+            ContactSubCategoryId = user.ContactSubCategoryId;
         }
     }
 

@@ -113,7 +113,7 @@ namespace NetPcContactApi.Services
                         userToEdit.Phone = userDto.Phone;
                         userToEdit.Birthday = userDto.Birthday;
                         userToEdit.ContactCategoryId = userDto.ContactCategoryId;
-                        userToEdit.SubContactCategoryId = userDto.SubContactCategoryId;
+                        userToEdit.ContactSubCategoryId = userDto.ContactSubCategoryId;
                         //if (!string.IsNullOrEmpty(userDto.Password))
                         //{
                         //    CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -177,6 +177,8 @@ namespace NetPcContactApi.Services
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Birthday = userDto.Birthday,
+                ContactCategoryId = userDto.ContactCategoryId,
+                ContactSubCategoryId = userDto.ContactSubCategoryId
             };
         }
 
@@ -279,8 +281,8 @@ namespace NetPcContactApi.Services
                         FirstName = u.FirstName,
                         LastName = u.LastName,
                         Email = u.Email,
-                        ContactCategory = u.ContactCategoryId,
-                        SubContactCategoryId = u.SubContactCategoryId,
+                        ContactCategoryId = u.ContactCategoryId,
+                        ContactSubCategoryId = u.ContactSubCategoryId,
                         Phone = u.Phone,
                         Birthday = u.Birthday,
                     })
