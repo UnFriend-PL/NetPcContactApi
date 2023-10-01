@@ -81,6 +81,11 @@ namespace NetPcContactApi.Migrations
                     { 3, 3, "Nauczyciel" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Birthday", "ContactCategoryId", "ContactSubCategoryId", "Email", "FirstName", "LastName", "PasswordHash", "PasswordSalt", "Phone" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, "admin@example", "admin", "admin", new byte[0], new byte[0], "" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_SubContactCategories_ContactSubCategoryId",
                 table: "SubContactCategories",

@@ -15,9 +15,6 @@ namespace NetPcContactApi.Database
             modelBuilder.Entity<User>()
              .HasIndex(u => u.Email)
              .IsUnique();
-//            modelBuilder.Entity<User>().HasData(
-//            new User { UserId = 1, }
-//);
             modelBuilder.Entity<ContactCategory>().HasData(
                 new ContactCategory { ContactCategoryId = 1, Name = "Prywatny" },
                 new ContactCategory { ContactCategoryId = 2, Name = "Służbowy" },

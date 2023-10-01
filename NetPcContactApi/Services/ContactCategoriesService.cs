@@ -104,7 +104,6 @@ namespace NetPcContactApi.Services
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                //serviceResponse.Message = "Wystąpił błąd podczas pobierania listy subkategorii.";
                 serviceResponse.Message = ex.Message;
             }
 

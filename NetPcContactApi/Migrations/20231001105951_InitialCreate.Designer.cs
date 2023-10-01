@@ -12,7 +12,7 @@ using NetPcContactApi.Database;
 namespace NetPcContactApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231001010050_InitialCreate")]
+    [Migration("20231001105951_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -149,6 +149,21 @@ namespace NetPcContactApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ContactCategoryId = 1,
+                            ContactSubCategoryId = 1,
+                            Email = "admin@example",
+                            FirstName = "admin",
+                            LastName = "admin",
+                            PasswordHash = new byte[0],
+                            PasswordSalt = new byte[0],
+                            Phone = ""
+                        });
                 });
 #pragma warning restore 612, 618
         }

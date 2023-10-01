@@ -212,7 +212,7 @@ namespace NetPcContactApi.Services
         /// <param name="password">The password to hash.</param>
         /// <param name="passwordHash">The output password hash.</param>
         /// <param name="passwordSalt">The output password salt.</param>
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {

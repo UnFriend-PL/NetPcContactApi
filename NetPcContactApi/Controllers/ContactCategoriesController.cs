@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetPcContactApi.Models.Categories;
 using NetPcContactApi.Models.User;
 using NetPcContactApi.Services;
+using System.Data;
 
 namespace NetPcContactApi.Controllers
 {
@@ -53,6 +55,7 @@ namespace NetPcContactApi.Controllers
         /// Create a new subcategory
         /// </summary>
         [HttpPost("CreateContactSubCategory")]
+        [Authorize(Roles = "user")]
         public async Task<ActionResult<ServiceResponse<ContactSubCategory>>> CreateContactSubCategory(ContactSubCategoryDto contactSubCategoryDto)
         {
             var response = await _contactCategories.CreateContactSubCategory(contactSubCategoryDto);

@@ -21,15 +21,5 @@ namespace NetPcContactApi.Models.User
         [JsonProperty("birthday")]
         public DateTime Birthday { get; set; } = new DateTime();
 
-        //public UserDto(User user)
-        //{
-        //    FirstName = user.FirstName;
-        //    LastName = user.LastName;
-        //    Email = user.Email;
-        //    Phone = user.Phone;
-        //    ContactCategoryId = user.ContactCategoryId;
-        //    Birthday = user.Birthday;
-
-        //}
     }
 }
